@@ -12,10 +12,10 @@ import model.Imagem;
  * @author gabriel_arsenio
  */
 public class ListarImagemGUI extends javax.swing.JFrame {
-
+    
     private DefaultTableModel modelo = new DefaultTableModel();
     private JTable tabela;
-
+    
     public ListarImagemGUI() {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -45,15 +45,16 @@ public class ListarImagemGUI extends javax.swing.JFrame {
         //formWindowGainedFocus(null);// Ignore the gamby
         scrollPainel.setViewportView(tabela);
     }
-
+    
     public JPanel getPainelFundoLista() {
         return painelFundoLista;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        seletor = new javax.swing.JFileChooser();
         painelFundoLista = new javax.swing.JPanel();
         btExcluir = new javax.swing.JButton();
         btInserir = new javax.swing.JButton();
@@ -61,6 +62,8 @@ public class ListarImagemGUI extends javax.swing.JFrame {
         btRecuperar = new javax.swing.JButton();
         scrollPainel = new javax.swing.JScrollPane();
         txPesquisa = new javax.swing.JTextField();
+
+        seletor.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
@@ -149,11 +152,11 @@ public class ListarImagemGUI extends javax.swing.JFrame {
     private void btInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserirActionPerformed
         new InserirImagemGUI(modelo).setVisible(true);
     }//GEN-LAST:event_btInserirActionPerformed
-
+    
     private void btRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRecuperarActionPerformed
         int linhaSelecionada = -1;
         linhaSelecionada = tabela.getSelectedRow();
-
+        
         if (linhaSelecionada >= 0) {
             int codigo = (int) tabela.getValueAt(linhaSelecionada, 0);
 
@@ -167,15 +170,15 @@ public class ListarImagemGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhuma imagem selecionada.");
         }
     }//GEN-LAST:event_btRecuperarActionPerformed
-
+    
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
         int linhaSelecionada = -1;
         linhaSelecionada = tabela.getSelectedRow();
-
+        
         if (linhaSelecionada >= 0) {
             int codigo = (int) tabela.getValueAt(linhaSelecionada, 0);
             ImagemController ic = new ImagemController();
-
+            
             if (ic.excluir(codigo)) {
                 modelo.removeRow(tabela.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Imagem excluída com sucesso.");
@@ -184,7 +187,7 @@ public class ListarImagemGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhuma imagem foi selecionada.");
         }
     }//GEN-LAST:event_btExcluirActionPerformed
-
+    
     private void txPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txPesquisaActionPerformed
         modelo.setNumRows(0);
         ImagemController ic = new ImagemController();
@@ -192,11 +195,11 @@ public class ListarImagemGUI extends javax.swing.JFrame {
             modelo.addRow(new Object[]{img.getCodigo(), img.getNome()});
         }
     }//GEN-LAST:event_txPesquisaActionPerformed
-
+    
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
         int linhaSelecionada = -1;
         linhaSelecionada = tabela.getSelectedRow();
-
+        
         if (linhaSelecionada >= 0) {
             int codigo = (int) tabela.getValueAt(linhaSelecionada, 0);
             new InserirImagemGUI(linhaSelecionada, codigo, modelo).setVisible(true);
@@ -204,7 +207,7 @@ public class ListarImagemGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhuma imagem foi selecionada.");
         }
     }//GEN-LAST:event_btEditarActionPerformed
-
+    
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
     }//GEN-LAST:event_formWindowGainedFocus
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -214,6 +217,7 @@ public class ListarImagemGUI extends javax.swing.JFrame {
     private javax.swing.JButton btRecuperar;
     private javax.swing.JPanel painelFundoLista;
     private javax.swing.JScrollPane scrollPainel;
+    private javax.swing.JFileChooser seletor;
     private javax.swing.JTextField txPesquisa;
     // End of variables declaration//GEN-END:variables
 
@@ -225,7 +229,7 @@ public class ListarImagemGUI extends javax.swing.JFrame {
         modelo.addColumn("Nome");
         preencherTable();
     }
-
+    
     private void preencherTable() {
         ImagemController im = new ImagemController();
         for (Imagem img : im.listarImagens()) {
